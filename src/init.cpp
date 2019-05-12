@@ -782,13 +782,13 @@ static std::string ResolveErrMsg(const char * const optname, const std::string& 
 
 void InitLogging()
 {
-    fPrintToConsole = GetBoolArg("-printtoconsole", false);
-    fLogTimestamps = GetBoolArg("-logtimestamps", DEFAULT_LOGTIMESTAMPS);
-    fLogTimeMicros = GetBoolArg("-logtimemicros", DEFAULT_LOGTIMEMICROS);
+    fPrintToConsole = GetBoolArg("-printtoconsole", false); 
+    fLogTimestamps = GetBoolArg("-logtimestamps", false);
+    fLogTimeMicros = GetBoolArg("-logtimemicros", false);
     fLogIPs = GetBoolArg("-logips", DEFAULT_LOGIPS);
 
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("Litecoin version %s\n", FormatFullVersion());
+    LogPrintf("Litebench version %s\n", FormatFullVersion());
 }
 
 namespace { // Variables internal to initialization process only

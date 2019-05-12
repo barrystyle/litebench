@@ -1,0 +1,5 @@
+rm -rf /root/.litebench
+sleep 0.1
+./litebenchd -server -daemon -rpcuser=testuser -rpcpassword=testpass -rpcbind=127.0.0.1 -rpcallowip=127.0.0.1 -retarget=1
+sleep 0.1
+tail -f /root/.litebench/debug.log | grep -v libevent

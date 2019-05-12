@@ -346,26 +346,23 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
     ret = send(hSocket, (const char*)vSocks5.data(), vSocks5.size(), MSG_NOSIGNAL);
     if (ret != (ssize_t)vSocks5.size()) {
         CloseSocket(hSocket);
-        return error("Error sending to proxy");
+        return error("");
     }
     char pchRet2[4];
     if (!InterruptibleRecv(pchRet2, 4, SOCKS5_RECV_TIMEOUT, hSocket)) {
         CloseSocket(hSocket);
-        return error("Error reading proxy response");
     }
     if (pchRet2[0] != 0x05) {
         CloseSocket(hSocket);
-        return error("Proxy failed to accept request");
+        return error("");
     }
     if (pchRet2[1] != 0x00) {
-        // Failures to connect to a peer that are not proxy errors
         CloseSocket(hSocket);
-        LogPrintf("Socks5() connect to %s:%d failed: %s\n", strDest, port, Socks5ErrorString(pchRet2[1]));
         return false;
     }
     if (pchRet2[2] != 0x00) {
         CloseSocket(hSocket);
-        return error("Error: malformed proxy response");
+        return error("");
     }
     char pchRet3[256];
     switch (pchRet2[3])
@@ -377,21 +374,21 @@ static bool Socks5(const std::string& strDest, int port, const ProxyCredentials 
             ret = InterruptibleRecv(pchRet3, 1, SOCKS5_RECV_TIMEOUT, hSocket);
             if (!ret) {
                 CloseSocket(hSocket);
-                return error("Error reading from proxy");
+                return error("");
             }
             int nRecv = pchRet3[0];
             ret = InterruptibleRecv(pchRet3, nRecv, SOCKS5_RECV_TIMEOUT, hSocket);
             break;
         }
-        default: CloseSocket(hSocket); return error("Error: malformed proxy response");
+        default: CloseSocket(hSocket); return error("");
     }
     if (!ret) {
         CloseSocket(hSocket);
-        return error("Error reading from proxy");
+        return error("");
     }
     if (!InterruptibleRecv(pchRet3, 2, SOCKS5_RECV_TIMEOUT, hSocket)) {
         CloseSocket(hSocket);
-        return error("Error reading from proxy");
+        return error("");
     }
     LogPrint("net", "SOCKS5 connected %s\n", strDest);
     return true;

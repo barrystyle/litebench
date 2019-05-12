@@ -461,7 +461,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
 
     if (strMode != "template")
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid mode");
-
+#if 0
     if(!g_connman)
         throw JSONRPCError(RPC_CLIENT_P2P_DISABLED, "Error: Peer-to-peer functionality missing or disabled");
 
@@ -470,7 +470,7 @@ UniValue getblocktemplate(const JSONRPCRequest& request)
 
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Litecoin is downloading blocks...");
-
+#endif
     static unsigned int nTransactionsUpdatedLast;
 
     if (!lpval.isNull())
